@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t -*-
-;;; ohai-markdown.el --- That text format that's everywhere org-mode should be.
+;;; ohai-set-path.el --- Set the executable search path from the user shell.
 
-;; Copyright (C) 2015 Bodil Stokke
+;; Copyright (C) 2016 Bodil Stokke
 
 ;; Author: Bodil Stokke <bodil@bodil.org>
 
@@ -20,15 +20,14 @@
 
 ;;; Code:
 
-(require 'ohai-package)
+;; To ensure availability of command line tools, we try to get Emacs's
+;; executable path from your shell configuration using the
+;; `exec-path-from-shell' package.
 
-;; Install Markdown support.
-(use-package markdown-mode
-  :commands markdown-mode
-  :mode (("\\.markdown$" . markdown-mode)
-         ("\\.md$" . markdown-mode))
-  :config
-  (add-hook 'markdown-mode-hook 'visual-line-mode))
+(paradox-require 'exec-path-from-shell)
 
+(when (memq window-system '(x mac ns))
+  (exec-path-from-shell-initialize))
 
-  (provide 'ohai-markdown)
+(provide 'ohai-set-path)
+;;; ohai-set-path.el ends here
