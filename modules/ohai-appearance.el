@@ -30,6 +30,16 @@
   (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
     (when (fboundp mode) (funcall mode -1))))
 
+(defun ohai-appearance/ample ()
+  (interactive)
+  (use-package ample-theme)
+  (load-theme 'ample-flat)
+  (set-frame-font (apply 'font-spec :name "Source Code Pro"
+                             '(:size 15
+                             :weight normal
+                             :width normal
+                             :powerline-scale 1))))
+
 ;; Configure the light colour scheme.
 (defun ohai-appearance/light ()
   (interactive)
@@ -189,11 +199,13 @@
 ;; Install the colour scheme according to personal taste.
 (defun ohai-appearance/apply-style ()
   (interactive)
-  (cond
-   ((equal ohai-personal-taste/style 'dark)
-    (ohai-appearance/dark))
-   ((equal ohai-personal-taste/style 'light)
-    (ohai-appearance/light))))
+  (ohai-appearance/ample)
+  ;; (cond
+  ;;  ((equal ohai-personal-taste/style 'dark)
+  ;;   (ohai-appearance/dark))
+  ;;  ((equal ohai-personal-taste/style 'light)
+  ;;  (ohai-appearance/light)
+  )
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
