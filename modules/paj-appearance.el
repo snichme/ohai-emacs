@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t -*-
-;;; ohai-appearance.el --- Fashion and aesthetics.
+;;; paj-appearance.el --- Fashion and aesthetics.
 
 ;; Copyright (C) 2015 Bodil Stokke
 
@@ -26,79 +26,18 @@
 (require 'term)
 
 ;; Get rid of the training wheels, if you're ready for it.
-(when (not ohai-personal-taste/training-wheels)
-  (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
-    (when (fboundp mode) (funcall mode -1))))
+(dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
+    (when (fboundp mode) (funcall mode -1)))
 
-(defun ohai-appearance/ample ()
+(defun paj-appearance/ample ()
   (interactive)
   (use-package ample-theme)
   (load-theme 'ample-flat)
   (set-frame-font (apply 'font-spec :name "Source Code Pro"
-                             '(:size 15
-                             :weight normal
-                             :width normal
-                             :powerline-scale 1))))
-
-;; Configure the light colour scheme.
-(defun ohai-appearance/light ()
-  (interactive)
-  (use-package material-theme)
-  (load-theme 'material-light)
-
-  (set-face-attribute 'mode-line nil
-                      :foreground "#cccccc"
-                      :background "#000000"
-                      :box nil
-                      :weight 'bold)
-  (set-face-attribute 'mode-line-buffer-id nil
-                      :foreground "white"
-                      :weight 'bold)
-  (set-face-foreground 'which-func "#3cb64a")
-  (set-face-attribute 'linum nil :height 0.7)
-  (set-face-attribute 'linum-highlight-face nil :foreground nil :background "#ddd" :height 0.7)
-
-  (set-face-foreground 'term-color-black "#ffffff")
-  (set-face-foreground 'term-color-red "#f5666d")
-  (set-face-foreground 'term-color-green "#3cb64a")
-  (set-face-foreground 'term-color-yellow "#ce5c00")
-  (set-face-foreground 'term-color-blue "#00578e")
-  (set-face-foreground 'term-color-magenta "#d020f0")
-  (set-face-foreground 'term-color-cyan "#6799cc")
-  (set-face-foreground 'term-color-white "#000000")
-
-  (run-hooks 'ohai-appearance/hook)
-  (run-hooks 'ohai-appearance/light-hook))
-
-;; Configure the dark colour scheme.
-(defun ohai-appearance/dark ()
-  (interactive)
-  (use-package material-theme)
-  (load-theme 'material)
-
-;  (set-face-background 'default "#000")
-
-  (set-face-background 'region "#223355")
-;   (set-face-background 'fringe "#000")
-  (set-face-attribute
-   'linum nil
-   :foreground "#678" :background "#333" :height 0.9)
-  (set-face-attribute
-   'linum-highlight-face nil
-   :foreground "#96989c" :background "#263238" :height 0.9)
-  (set-face-foreground 'which-func "#7f9f7f")
-
-  (set-face-foreground 'term-color-black "#3f3f3f")
-  (set-face-foreground 'term-color-red "#cc9393")
-  (set-face-foreground 'term-color-green "#7f9f7f")
-  (set-face-foreground 'term-color-yellow "#f0dfaf")
-  (set-face-foreground 'term-color-blue "#8cd0d3")
-  (set-face-foreground 'term-color-magenta "#dc8cc3")
-  (set-face-foreground 'term-color-cyan "#93e0e3")
-  (set-face-foreground 'term-color-white "#dcdccc")
-
-  (run-hooks 'ohai-appearance/hook)
-  (run-hooks 'ohai-appearance/dark-hook))
+                         '(:size 15
+                                 :weight normal
+                                 :width normal
+                                 :powerline-scale 1))))
 
 ;; Setup hooks to re-run after all modules have loaded, allowing
 ;; other modules to tweak the theme without having to wait
@@ -107,15 +46,10 @@
  'ohai/modules-loaded-hook
  (lambda ()
    (run-hooks 'ohai-appearance/hook)
-   (cond
-    ((equal ohai-personal-taste/style 'dark)
-     (run-hooks 'ohai-appearance/dark-hook))
-    ((equal ohai-personal-taste/style 'light)
-     (run-hooks 'ohai-appearance/light-hook)))))
+   (run-hooks 'ohai-appearance/ample-hook)))
 
 ;; Maximise the Emacs frame if that's how you like it.
-(if (equal ohai-personal-taste/window-state 'maximised)
-    (set-frame-parameter nil 'fullscreen 'maximized))
+(set-frame-parameter nil 'fullscreen 'maximized)
 
 ;; Don't defer screen updates when performing operations.
 (setq redisplay-dont-pause t)
@@ -157,7 +91,6 @@
 ;; Unclutter the modeline
 (use-package diminish)
 
-
 (eval-after-load "eldoc" '(diminish 'eldoc-mode))
 (eval-after-load "autopair" '(diminish 'autopair-mode))
 (eval-after-load "abbrev" '(diminish 'abbrev-mode))
@@ -197,24 +130,11 @@
 (add-hook 'compilation-filter-hook #'compilation-ansi-color-process-output)
 
 ;; Install the colour scheme according to personal taste.
-(defun ohai-appearance/apply-style ()
+(defun paj-appearance/apply-style ()
   (interactive)
-  (ohai-appearance/ample)
-  ;; (cond
-  ;;  ((equal ohai-personal-taste/style 'dark)
-  ;;   (ohai-appearance/dark))
-  ;;  ((equal ohai-personal-taste/style 'light)
-  ;;  (ohai-appearance/light)
-  )
+  (paj-appearance/ample))
 
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame frame
-                  (ohai-appearance/apply-style))))
-  (ohai-appearance/apply-style))
+(paj-appearance/apply-style)
 
-
-
-(provide 'ohai-appearance)
-;;; ohai-appearance.el ends here
+(provide 'paj-appearance)
+;;; paj-appearance.el ends here

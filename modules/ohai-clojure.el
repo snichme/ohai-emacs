@@ -27,15 +27,11 @@
   (add-hook
    'clojure-mode-hook
    (lambda ()
-     (when ohai-personal-taste/paredit (paredit-mode))
-
-     (use-package inf-clojure
-       :commands inf-clojure-minor-mode)
-
+     (paredit-mode 1)
      (clj-refactor-mode 1)
 
-     ;; We'll also be using clj-refactor for refactoring support. The features
-     ;; which require CIDER won't work with Monroe.
+     (use-package inf-clojure)
+
      (use-package clj-refactor
        :commands clj-refactor-mode
        :config

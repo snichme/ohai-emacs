@@ -22,7 +22,7 @@
 
 (setq
  ohai/available-modules
- '((ohai-appearance "how Emacs looks" :recommended)
+ '((paj-appearance "how Emacs looks" :recommended)
    (ohai-fonts "adjust font size on the fly" :recommended)
    (ohai-general "basic editor settings" :recommended)
    (ohai-splash "enhance your scratch buffer" :recommended)

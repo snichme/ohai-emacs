@@ -28,7 +28,9 @@
       ido-use-filename-at-point 'guess
       ido-use-url-at-point t
       ido-max-prospects 10
-      ido-use-virtual-buffers t)
+      ido-use-virtual-buffers t
+      ido-vertical-define-keys 'C-n-and-C-p-only)
+
 
 ;; Make sure ido is really everywhere.
 (use-package ido-ubiquitous
